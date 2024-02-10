@@ -1,5 +1,4 @@
-// import Task from "./Pages/Task"
-// import Team from "./Pages/Team"
+
 import Home from "./pages/Home"
 import {
          Route, Link, 
@@ -13,8 +12,6 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />} >
         <Route index element = {<Home/>} />
-        {/* <Route path="/task" element = {<Task/>} />
-        <Route path="/team" element = {<Team/>} /> */}
       </Route>
     )
   )
@@ -67,7 +64,7 @@ const Root = () => {
 
         </div>
 
-        <div className="h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-64 w-60 dark:bg-gray-900 dark:border-gray-700">
+        <div className="h-screen py-8 overflow-y-auto bg-white border-l border-r sm:w-full w-full dark:bg-gray-900 dark:border-gray-700">
           <Outlet/>
         </div>
 
