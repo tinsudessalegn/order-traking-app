@@ -1,0 +1,58 @@
+
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css"
+
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { FilterMatchMode } from 'primereact/api';
+import { InputText } from 'primereact/inputtext';
+
+const API = "https://622b075714ccb950d22ca2f6.mockapi.io/api/orders";
+
+function App() {
+
+  const [order, setOrder] = useState([])
+  const [totalOrder, setTotalOrder] = useState([])
+  const [filters, setFilters] = useState({
+    globals: {value: null, matchMode: FilterMatchMode.CONTAINS}
+  })
+
+  useEffect(()=> {
+    axios.get(API).then(res => {
+      setOrder(res.data)
+      console.log(res)
+      setTotalOrder(res.data.length)
+    }).catch(err => console.log(err))
+  }, [])
+
+  return (
+    <>
+      <h1>Customer Order React App</h1>
+
+        <InputText
+          onInput={(e)=>
+              setFilters({...filters, global: {value: e.target.value, matchMode: FilterMatchMode.CONTAINS}  })}
+        />
+
+      <DataTable value={order} sortMode='multiple' filters={filters} paginator rows={3}
+                  rowsPerPageOptions={[10,20,30]} totalRecords={totalOrder} >
+
+        <Column field='id' header='ID' sortable></Column>
+        <Column field='customer_image' header='Logo'></Column>
+        <Column field='customer_name' header='Customer Name' sortable></Column>
+        <Column field='item_name' header='Item' sortable></Column>
+        <Column field='number_of_items' header='Number of Items' sortable></Column>
+        <Column field='is_packed' header='Item Status'></Column>
+        <Column field='orderDate' header='Order Date' sortable></Column>
+        <Column field='delivery_deadline' header='Delivery Deadline' sortable></Column>
+        <Column field='item_ready_date' header='Item Ready Date' sortable></Column>
+
+      </DataTable>
+    </>
+  )
+}
+
+export default App
